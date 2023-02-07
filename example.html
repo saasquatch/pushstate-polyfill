@@ -1,0 +1,87 @@
+<!doctype>
+
+<html>
+  <head>
+    <script>
+      
+/**
+
+Usage of the API
+
+
+**/
+
+const logEvent = (e) => {
+  console.log("Event received", e.type);
+  console.log("New location", window.location.pathname);
+}
+
+window.addEventListener("beforepushstate", logEvent);
+window.addEventListener("pushstate", logEvent);
+window.addEventListener("replacestate", logEvent);
+window.addEventListener("beforereplacestate", logEvent);
+
+
+
+window.addEventListener("beforeunload", (e) => {
+	const checked = document.getElementById("preventUnload").checked;
+  if (checked) {
+    const leave = window.confirm("Are you sure you want to leave with unsaved changed?")
+    if(!leave) e.preventDefault();
+  }
+});
+
+window.addEventListener("beforepushstate", (e) => {
+	const checked = document.getElementById("preventPushState").checked;
+  if (checked) {
+    const leave = window.confirm("Are you sure you want to leave with unsaved changed?")
+    if(!leave) e.preventDefault();
+  }
+});
+
+window.addEventListener("beforereplacestate", (e) => {
+	const checked = document.getElementById("preventReplaceState").checked;
+  if (checked) {
+    const leave = window.confirm("Are you sure you want to leave with unsaved changed?")
+    if(!leave) e.preventDefault();
+  }
+});
+
+
+
+const updateLocation = () => {
+  document.getElementById("location").value = window.location.pathname
+}
+
+window.addEventListener("pushstate", updateLocation)
+window.addEventListener("replacestate", updateLocation)
+window.addEventListener("popstate", updateLocation)
+
+updateLocation();
+
+    </script>
+  <body>
+    <button onclick="javascript:window.history.replaceState({},'', '/test')">
+Replace with '/test'
+</button>
+
+<button onclick="javascript:window.history.pushState({},'', '/better')">
+Push (go to) '/better'
+</button>
+<button onclick="javascript:window.history.back()">
+Browser back
+</button>
+<button onclick="javascript:window.history.forward()">
+Browser forward
+</button>
+<hr>
+
+<input id="location" />
+
+
+<input type="checkbox" id="preventUnload" /><label for="preventUnload">Prevent Unload</label>
+<input type="checkbox" id="preventPushState" /><label for="preventPushState">Prevent PushState</label>
+<input type="checkbox" id="preventReplaceState" /><label for="preventReplaceState">Prevent ReplaceState</label>
+    
+  </body>
+</html>
