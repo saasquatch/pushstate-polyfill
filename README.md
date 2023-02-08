@@ -14,3 +14,5 @@ These are similar to the standard browser events:
   - `beforeunload`
 
 This works by replacing the default behaviour of the `window.history.pushState` and `window.history.replaceState`.
+
+Eventually this should likely be replaced by the new Navigation API in chrome: https://github.com/WICG/navigation-api/
